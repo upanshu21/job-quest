@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Walmart",
+        "base_url": "https://walmart.wd5.myworkdayjobs.com/en-US/WalmartExternal?q=software&locationCountry=bc33aa3152ec42d4995f4791a106ed09",
+        "params": {"q": "software"},
+        "selectors": {
+            "job_item": "div.job-item",
+            "title": "h3",
+            "location": "span.job-location",
+            "posted_date": "span.job-post-date"
+        }
+    }
+
+]
