@@ -58,7 +58,7 @@ class JobScraper:
             
             # Filter jobs based on target job titles and exclude senior/staff positions
             if (not any(title.lower() in job_title.lower() for title in self.target_job_titles) or 
-                any(excluded in job_title.lower() for excluded in ['senior', 'staff'])):
+                any(excluded in job_title.lower() for excluded in ['senior', 'staff', 'principal', 'lead', 'sr', 'sr.'])):
                 return None
                 
             return {
