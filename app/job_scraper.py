@@ -1,12 +1,14 @@
 import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from app.job_writer import JobWriter
 
 class JobScraper:
     def __init__(self, driver_manager, target_job_titles):
         self.driver_manager = driver_manager
         self.target_job_titles = target_job_titles
         self.processed_ids = set()
+        self.job_writer = JobWriter()
 
     def scrape_jobs(self, company_url):
         """Scrape jobs from a specific company URL."""
@@ -26,9 +28,9 @@ class JobScraper:
                 for job_element in job_elements:
                     job = self._process_job_element(job_element)
                     if job:
-                        if job['posted_on'] == "Posted Today":
+                        if job['posted_on'] == "Posted Today" or job['posted_on'] == "Posted Yesterday":
                             if job['id'] not in self.processed_ids:
-                                print(job['title'], job['id'], job['posted_on'], job['url'])
+                                self.job_writer.write_job(job['title'], job['id'], job['posted_on'], job['url'])
                                 self.processed_ids.add(job['id'])
                         else:
                             today = False
@@ -44,18 +46,13 @@ class JobScraper:
         try:
             job_title_element = job_element.find_element(By.XPATH, './/h3/a')
             job_id_element = job_element.find_element(
-                By.XPATH, './/ul[@data-automation-id="subtitle"]/li'
-            )
+                By.XPATH, './/ul[@data-automation-id="subtitle"]/li')
             posted_on_element = job_element.find_element(
                 By.XPATH, 
-                './/dd[@class="css-129m7dg"][preceding-sibling::dt[contains(text(),"posted on")]]'
-            )
+                './/dd[@class="css-129m7dg"][preceding-sibling::dt[contains(text(),"posted on")]]')
             
             job_title = job_title_element.text
-            job_href = job_title_element.get_attribute('href')  # Get the href (URL) of the job
-
-
-            
+            job_href = job_title_element.get_attribute('href')  # Gets the href (URL) of the job
             # Filter jobs based on target job titles and exclude senior/staff positions
             if (not any(title.lower() in job_title.lower() for title in self.target_job_titles) or 
                 any(excluded in job_title.lower() for excluded in ['senior', 'staff', 'principal', 'lead', 'sr', 'sr.'])):
