@@ -1,7 +1,21 @@
 {
     "company_urls": [
 
-        "https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite?locationHierarchy1=2fcb99c455831013ea52fb338f2932d8"
+        "https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite?locationHierarchy1=2fcb99c455831013ea52fb338f2932d8",
+        "https://redhat.wd5.myworkdayjobs.com/en-US/jobs?a=bc33aa3152ec42d4995f4791a106ed09",
+        "https://td.wd3.myworkdayjobs.com/en-US/TD_Bank_Careers?locationCountry=bc33aa3152ec42d4995f4791a106ed09",
+        "https://mtb.wd5.myworkdayjobs.com/MTB?locationCountry=bc33aa3152ec42d4995f4791a106ed09",
+        "https://fifththird.wd5.myworkdayjobs.com/en-US/53careers?Location_Country=bc33aa3152ec42d4995f4791a106ed09",
+        "https://keybank.wd5.myworkdayjobs.com/External_Career_Site",
+        "https://ntrs.wd1.myworkdayjobs.com/northerntrust?locationCountry=bc33aa3152ec42d4995f4791a106ed09",
+        "https://northwesternmutual.wd5.myworkdayjobs.com/CORPORATE-CAREERS",
+        "https://shipt.wd1.myworkdayjobs.com/Shipt_External",
+        "https://unum.wd1.myworkdayjobs.com/External",
+        "https://usaa.wd1.myworkdayjobs.com/USAAJOBSWD"
+
+
+
+
     ],
     "target_job_titles": [
         "Software Engineer",

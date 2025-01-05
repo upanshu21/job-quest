@@ -14,10 +14,16 @@ class JobScraper:
         """Scrape jobs from a specific company URL."""
         jobs = []
         today = True
+        start_time = time.time()  # Add start time
         
         self.driver_manager.driver.get(company_url)
         try:
             while today:
+                # Add timeout check
+                if time.time() - start_time > 20:
+                    print(f"Timeout reached for {company_url}")
+                    break
+                    
                 time.sleep(2)
                 self.driver_manager.wait.until(
                     EC.presence_of_element_located((By.XPATH, '//li[@class="css-1q2dra3"]')))
