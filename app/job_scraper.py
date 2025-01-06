@@ -61,7 +61,7 @@ class JobScraper:
             job_href = job_title_element.get_attribute('href')  # Gets the href (URL) of the job
             # Filter jobs based on target job titles and exclude senior/staff positions
             if (not any(title.lower() in job_title.lower() for title in self.target_job_titles) or 
-                any(excluded in job_title.lower() for excluded in ['senior', 'staff', 'principal', 'lead', 'sr', 'sr.'])):
+                any(excluded in job_title.lower() for excluded in ['senior', 'staff', 'principal', 'lead', 'sr', 'sr.', 'manager'])):
                 return None
                 
             return {
