@@ -37,21 +37,23 @@ jobs:
       run: |
         echo "$SSH_PRIVATE_KEY" > ssh_key.pem
         chmod 600 ssh_key.pem
-        ssh -vvv -i ssh_key.pem -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} '
-          cd /home/ubuntu/scraper && 
-          pkill -f "python3 -m app.main" || true &&
-          deactivate &&
-          cd /home/ubuntu &&
-          rm -rf /home/ubuntu/scraper && mkdir -p /home/ubuntu/scraper
-          '
-        scp -o StrictHostKeyChecking=no -i ssh_key.pem deployment.zip ubuntu@${EC2_HOST}:/home/ubuntu/scraper/
         ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@${EC2_HOST} '
-          cd /home/ubuntu/scraper && 
-          unzip -o deployment.zip &&
-          virtualenv venv && 
-          source venv/bin/activate &&
-          pip install -r requirements.txt &&
-          nohup python3 -m app.main > output.log 2>&1 &'
+        pkill -f "python3 -m app.main" || true
+        rm -rf /home/ubuntu/scraper && mkdir -p /home/ubuntu/scraper
+        '
+      
+        scp -o StrictHostKeyChecking=no -i ssh_key.pem deployment.zip ubuntu@${EC2_HOST}:/home/ubuntu/scraper/
+      
+        ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@${EC2_HOST} '
+        cd /home/ubuntu/scraper &&
+        unzip -o deployment.zip &&
+            
+        virtualenv venv &&
+        source venv/bin/activate &&
+        pip install -r requirements.txt &&
+            
+        nohup python3 -m app.main > output.log 2>&1 &
+        '
         rm ssh_key.pem
-        
+      
     
