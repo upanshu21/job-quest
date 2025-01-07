@@ -2,3 +2,4 @@
 app/__pycache__/
 app/config/__pycache__/
 jobs.csv
+.env

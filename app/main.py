@@ -1,8 +1,9 @@
 from app.scraper import JobScraperApp
+import asyncio
 
-def main():
+async def main():
     app = JobScraperApp()
-    app.run()
+    await app.run()
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

@@ -1,5 +1,6 @@
 import json
 import os
+import aiofiles
 
 class ConfigHandler:
     def __init__(self, config_path=None):
@@ -10,15 +11,16 @@ class ConfigHandler:
             self.config_path = config_path
         self.company_urls = []
         self.target_job_titles = []
-        self.load_config()
 
-    def load_config(self):
-        """Load configuration from JSON file."""
+    async def load_config(self):
+        """Load configuration asynchronously from JSON file."""
         try:
-            with open(self.config_path, 'r') as config_file:
-                config = json.load(config_file)
-                self.company_urls = config['company_urls']
-                self.target_job_titles = config['target_job_titles']
+            async with aiofiles.open(self.config_path, 'r') as config_file:
+                config_content = await config_file.read()
+            
+            config = json.loads(config_content)
+            self.company_urls = config['company_urls']
+            self.target_job_titles = config['target_job_titles']
         except FileNotFoundError:
             raise Exception("Error: config.json file not found")
         except json.JSONDecodeError:
