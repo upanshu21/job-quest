@@ -37,7 +37,7 @@ jobs:
       run: |
         echo "$SSH_PRIVATE_KEY" > ssh_key.pem
         chmod 600 ssh_key.pem
-        ssh -vvv -i private_key.pem -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} '
+        ssh -vvv -i ssh_key.pem -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} '
           rm -rf /home/ubuntu/scraper && mkdir -p /home/ubuntu/scraper
           '
         scp -o StrictHostKeyChecking=no -i ssh_key.pem deployment.zip ubuntu@${EC2_HOST}:/home/ubuntu/scraper/
