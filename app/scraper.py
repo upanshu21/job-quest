@@ -2,11 +2,14 @@ import asyncio
 from app.config.config_handler import ConfigHandler
 from app.config.driver_manager import DriverManager
 from app.job_scraper import JobScraper
+from app.telegram.bot import NotificationTelegram
+
 
 class JobScraperApp:
     def __init__(self):
         self.config = ConfigHandler()
         self.max_concurrent_tasks = 2
+        self.notification = NotificationTelegram()
 
     async def scrape_company(self, company_url):
         """Asynchronously scrape jobs for a single company."""
@@ -49,6 +52,7 @@ class JobScraperApp:
                 print("Starting job scraping...")
                 await self.run_scraper()
                 print("Waiting for the next run (30 minutes)...")
+                self.notification.send_job_notification("Waiting for the next run (30 minutes)...")
                 await asyncio.sleep(1800) 
         except Exception as e:
             print(f"Error occurred: {e}")

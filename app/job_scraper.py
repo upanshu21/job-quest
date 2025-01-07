@@ -51,7 +51,7 @@ class JobScraper:
                 for job_element in job_elements:
                     job = await self._process_job_element(job_element)
                     if job:
-                        if job['posted_on'] in {"Posted Today", "Posted Yesterday"}:
+                        if job['posted_on'] in {"Posted Today"}:
                             if await self._check_and_update_cache(job['id']):
                                 await self.notification.send_job_notification(job)
                                 self.processed_ids.add(job['id'])
