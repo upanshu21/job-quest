@@ -52,7 +52,7 @@ class JobScraperApp:
                 print("Starting job scraping...")
                 await self.run_scraper()
                 print("Waiting for the next run (30 minutes)...")
-                self.notification.send_job_notification("Waiting for the next run (30 minutes)...")
+                await self.notification.send_job_notification("Waiting for the next run (30 minutes)...")
                 await asyncio.sleep(1800) 
         except Exception as e:
             print(f"Error occurred: {e}")
