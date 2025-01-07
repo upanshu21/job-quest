@@ -3,14 +3,12 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from app.telegram.bot import NotificationTelegram
-from app.job_writer import JobWriter
 
 class JobScraper:
     def __init__(self, driver_manager, target_job_titles):
         self.driver_manager = driver_manager
         self.target_job_titles = target_job_titles
         self.processed_ids = set()
-        self.job_writer = JobWriter()
         self.notification = NotificationTelegram()
 
     async def _check_and_update_cache(self, job_id):
