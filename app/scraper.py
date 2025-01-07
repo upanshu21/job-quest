@@ -9,7 +9,7 @@ class JobScraperApp:
         self.config = ConfigHandler()
         self.driver_manager = DriverManager()
         self.job_scraper = None
-        self.max_workers = 2  # Adjust based on your system's capabilities
+        self.max_workers = 1  # Adjust based on your system's capabilities
 
     def scrape_company(self, company_url):
         """Scrape jobs for a single company."""
