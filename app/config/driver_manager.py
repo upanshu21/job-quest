@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import asyncio
 
 class DriverManager:
-    def __init__(self, driver_path="/opt/homebrew/bin/chromedriver"):
+    def __init__(self, driver_path="/usr/bin/chromedriver"):
         self.driver_path = driver_path
         self.driver = None
         self.wait = None
