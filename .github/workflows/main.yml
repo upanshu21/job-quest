@@ -41,6 +41,7 @@ jobs:
           cd /home/ubuntu/scraper && 
           pkill -f "python3 -m app.main" || true &&
           deactivate &&
+          cd /home/ubuntu &&
           rm -rf /home/ubuntu/scraper && mkdir -p /home/ubuntu/scraper
           '
         scp -o StrictHostKeyChecking=no -i ssh_key.pem deployment.zip ubuntu@${EC2_HOST}:/home/ubuntu/scraper/
