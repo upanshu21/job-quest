@@ -35,40 +35,19 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         EC2_HOST: ${{ secrets.EC2_HOST }}
       run: |
-        # Setup SSH key with proper cleanup in case of failure
-        trap 'rm -f ssh_key.pem' EXIT
         echo "$SSH_PRIVATE_KEY" > ssh_key.pem
         chmod 600 ssh_key.pem
-
-        # Stop existing application and clean up
-        ssh -i ssh_key.pem -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} '
-          set -e
-          if pgrep -f "python3 -m app.main" > /dev/null; then
-            pkill -f "python3 -m app.main"
-            sleep 5  # Wait for process to terminate
-          fi
-          if [ -d "/home/ubuntu/scraper/venv" ]; then
-            deactivate || true
-          fi
-          rm -rf /home/ubuntu/scraper
-          mkdir -p /home/ubuntu/scraper
-        '
-
-        # Deploy and start application
-        scp -i ssh_key.pem deployment.zip ubuntu@${EC2_HOST}:/home/ubuntu/scraper/
-        ssh -i ssh_key.pem -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} '
-          set -e
-          cd /home/ubuntu/scraper
-          unzip -o deployment.zip
-          python3 -m venv venv
+        ssh -vvv -i ssh_key.pem -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} '
+          rm -rf /home/ubuntu/scraper && mkdir -p /home/ubuntu/scraper
+          '
+        scp -o StrictHostKeyChecking=no -i ssh_key.pem deployment.zip ubuntu@${EC2_HOST}:/home/ubuntu/scraper/
+        ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@${EC2_HOST} '
+          cd /home/ubuntu/scraper && 
+          unzip -o deployment.zip &&
+          python3 -m venv venv && 
+          virtualenv venv
           source venv/bin/activate
-          pip install -r requirements.txt
-          nohup python3 -m app.main > output.log 2>&1 &
-          sleep 2  # Wait briefly to check if process started successfully
-          if ! pgrep -f "python3 -m app.main" > /dev/null; then
-            echo "Failed to start application"
-            exit 1
-          fi
-        '
+          nohup python3 -m app.main > output.log 2>&1 &'
+        rm ssh_key.pem
         
     
