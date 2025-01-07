@@ -4,3 +4,4 @@ selenium
 python-dotenv
 aiohttp
 aiofiles
+python-telegram-bot
