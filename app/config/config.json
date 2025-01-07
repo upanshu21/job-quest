@@ -32,21 +32,20 @@
 
     ],
     "target_job_titles": [
-        "Software Engineer",
-        "Full stack",
+        "Software",
+        "full stack",
         "Developer",
         "cloud",
         "DevOps",
         "platform",
         "frontend",
         "java",
+        "test",
         "backend",
         "SDET",
-        "SWE",
         "Quality Assurance",
-        "GenAI",
         "SRE",
         "Reliability",
-        "Technical"
+        "python"
     ]
 }

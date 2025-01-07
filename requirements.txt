@@ -1,3 +1,7 @@
 beautifulsoup4
 requests 
 selenium
+python-dotenv
+aiohttp
+aiofiles
+python-telegram-bot
