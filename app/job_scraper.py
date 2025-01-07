@@ -48,7 +48,10 @@ class JobScraper:
 
                 for job_element in job_elements:
                     job = await self._process_job_element(job_element)
-                    if job:
+                    if job:              
+                        if job['id'] in self.processed_ids:
+                            print(f"Job ID {job['id']} already processed")
+                            continue
                         if job['posted_on'] in {"Posted Today"}:
                             if await self._check_and_update_cache(job['id']):
                                 await self.notification.send_job_notification(job)
