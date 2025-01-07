@@ -43,7 +43,7 @@ jobs:
         scp -o StrictHostKeyChecking=no -i ssh_key.pem deployment.zip ubuntu@${EC2_HOST}:/home/ubuntu/scraper/
         ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@${EC2_HOST} '
           cd /home/ubuntu/scraper && 
-          unzip -o deployment.zip &&
+          unzip -o deployment.zip &&'
         rm ssh_key.pem
         
     
