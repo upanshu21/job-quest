@@ -3,26 +3,14 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from app.telegram.bot import NotificationTelegram
+from app.nocodb.config import ConfigNocoDB
 
 class JobScraper:
     def __init__(self, driver_manager, target_job_titles):
         self.driver_manager = driver_manager
         self.target_job_titles = target_job_titles
-        self.processed_ids = set()
         self.notification = NotificationTelegram()
-
-    async def _check_and_update_cache(self, job_id):
-        """
-        Check if a job ID is in cache and handle cache expiration.
-        Returns True if the job should be processed, False otherwise.
-        """
-        current_time = time.time()
-        if current_time - getattr(self, 'cache_timestamp', 0) > 86400:
-            self.processed_ids.clear()
-            self.cache_timestamp = current_time
-            return True
-
-        return job_id not in self.processed_ids
+        self.db = ConfigNocoDB()
 
     async def scrape_jobs(self, company_url):
         """Asynchronously scrape jobs from a specific company URL."""
@@ -48,14 +36,13 @@ class JobScraper:
 
                 for job_element in job_elements:
                     job = await self._process_job_element(job_element)
-                    if job:              
-                        if job['id'] in self.processed_ids:
+                    if job:    
+                        if self.db.check_if_job_exists(job['id']):
                             print(f"Job ID {job['id']} already processed")
                             continue
                         if job['posted_on'] in {"Posted Today"}:
-                            if await self._check_and_update_cache(job['id']):
-                                await self.notification.send_job_notification(job)
-                                self.processed_ids.add(job['id'])
+                            await self.notification.send_job_notification(job)
+                            self.db.post_data(job)
                         else:
                             today = False
                             break
